@@ -32,7 +32,7 @@ jobs:
       - android/change-java-version:
           java-version: 17
       - android/run-tests:
-          test-command: ./gradlew :Signal-Android:lintPlayProdDebug
+          test-command: ./gradlew :Signal-Android:lintPlayProdDebug --scan
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
