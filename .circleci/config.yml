@@ -25,6 +25,10 @@ jobs:
           name: Checkout submodules as well
           command: |
             git "submodule" "update" "--init" "--recursive" "--jobs=10"
+      - run:
+          name: Add Build Cache dependency hashes
+          command: |
+            gradle --write-verification-metadata sha256
       - android/change-java-version:
           java-version: 17
       - android/run-tests:
