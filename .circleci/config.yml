@@ -21,6 +21,10 @@ jobs:
     # See: https://circleci.com/docs/configuration-reference/#steps
     steps:
       - checkout
+      - run:
+          name: Checkout submodules as well
+          command: |
+            git "submodule" "update" "--init" "--recursive" "--jobs=10"
       - android/change-java-version:
           java-version: 17
       - android/run-tests:
