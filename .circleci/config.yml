@@ -21,7 +21,7 @@ jobs:
     steps:
       - checkout
       - android/change-java-version:
-          java-version: 17
+          java-version: "17"
       - android/run-tests:
           test-command: ./gradlew :Signal-Android:lintPlayProdDebug
 
