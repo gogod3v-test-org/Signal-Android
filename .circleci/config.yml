@@ -13,15 +13,16 @@ jobs:
   lint:
     # Specify the execution environment. You can specify an image from Docker Hub or use one of our convenience images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/configuration-reference/#executor-job
-    # executor:
-      # name: android/android-machine
+    executor:
+      name: android/android-machine
+      tag: 2023.11.01
 
     # Add steps to the job
     # See: https://circleci.com/docs/configuration-reference/#steps
     steps:
       - checkout
       - android/change-java-version:
-          java-version: "17"
+          java-version: 17
       - android/run-tests:
           test-command: ./gradlew :Signal-Android:lintPlayProdDebug
 
