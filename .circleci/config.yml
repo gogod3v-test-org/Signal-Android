@@ -28,7 +28,7 @@ jobs:
       - run:
           name: Add Build Cache dependency hashes
           command: |
-            gradle --write-verification-metadata sha256
+            ./gradlew --write-verification-metadata sha256
       - android/change-java-version:
           java-version: 17
       - android/run-tests:
