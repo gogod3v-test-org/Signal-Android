@@ -16,6 +16,7 @@ println('[BITRISE BUILD CACHE] Gradle Configuration loaded')
 
 String bitriseBuildCacheWorkspaceID = "09a2975c69a510f7"
 boolean isCI = System.getenv().containsKey("CI")
+println('[BITRISE BUILD CACHE] isCI: ' + isCI)
 buildCache {
     local {
         enabled = !isCI
