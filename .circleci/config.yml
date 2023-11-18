@@ -31,6 +31,10 @@ jobs:
             ./gradlew --write-verification-metadata sha256
       - android/change-java-version:
           java-version: 17
+      - run:
+          name: Disable dependency verification for gradle scan
+          command: |
+            rm gradle/verification-metadata.xml
       - android/run-tests:
           test-command: ./gradlew :Signal-Android:lintPlayProdDebug --scan
 
