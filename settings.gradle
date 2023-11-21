@@ -95,3 +95,7 @@ project(':glide-webp-app').projectDir = file('glide-webp/app')
 rootProject.name='Signal'
 
 apply from: 'dependencies.gradle'
+
+if (file("bitrise-build-cache.gradle").exists() && System.getenv("CI") != null) {
+    apply(from: "bitrise-build-cache.gradle")
+}
