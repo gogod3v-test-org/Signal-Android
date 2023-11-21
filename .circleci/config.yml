@@ -21,13 +21,17 @@ jobs:
     # Add steps to the job
     # See: https://circleci.com/docs/configuration-reference/#steps
     steps:
+      - android/change-java-version:
+          java-version: 17
       - checkout
       - run:
           name: Checkout submodules as well
           command: |
             git "submodule" "update" "--init" "--recursive" "--jobs=10"
-      - android/change-java-version:
-          java-version: 17
+      - run:
+          name: Add Build Cache dependency hashes
+          command: |
+            ./gradlew --write-verification-metadata sha256
       - android/run-tests:
           test-command: ./gradlew :Signal-Android:lintPlayProdDebug
 
@@ -41,6 +45,8 @@ jobs:
     # Add steps to the job
     # See: https://circleci.com/docs/configuration-reference/#steps
     steps:
+      - android/change-java-version:
+          java-version: 17
       - checkout
       - run:
           name: Checkout submodules as well
@@ -50,8 +56,6 @@ jobs:
           name: Add Build Cache dependency hashes
           command: |
             ./gradlew --write-verification-metadata sha256
-      - android/change-java-version:
-          java-version: 17
       - run:
           name: Assemble playProdDebug
           command: ./gradlew :Signal-Android:assemblePlayProdDebug
