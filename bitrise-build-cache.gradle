@@ -23,7 +23,14 @@ buildCache {
     }
     registerBuildCacheService(BitriseBuildCache.class, BitriseBuildCacheServiceFactory.class)
     remote(BitriseBuildCache.class) {
-        endpoint = System.getenv('BITRISE_BUILD_CACHE_ENDPOINT') ?: 'grpcs://pluggable.services.bitrise.io'
+        if (System.getenv('SP_BOSTON_BUILD_CACHE')) {
+            endpoint = System.getenv('SP_BOSTON_BUILD_CACHE')
+            println 'Using SP_BOSTON_BUILD_CACHE endpoint: $endpoint'
+        } else {
+            endpoint = System.getenv('BITRISE_BUILD_CACHE_ENDPOINT') ?: 'grpcs://pluggable.services.bitrise.io'
+            println 'Using BITRISE_BUILD_CACHE_ENDPOINT endpoint: $endpoint'
+        }
+        
         authToken = bitriseBuildCacheWorkspaceID + ':' + System.getenv('BITRISE_BUILD_CACHE_AUTH_TOKEN')
         enabled = true
         push = isCI
