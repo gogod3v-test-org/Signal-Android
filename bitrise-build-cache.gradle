@@ -24,6 +24,7 @@ buildCache {
     registerBuildCacheService(BitriseBuildCache.class, BitriseBuildCacheServiceFactory.class)
     remote(BitriseBuildCache.class) {
         endpoint = System.getenv('BITRISE_BUILD_CACHE_ENDPOINT') ?: 'grpcs://pluggable.services.bitrise.io'
+        println('[BITRISE BUILD CACHE] endpoint: ' + endpoint)
         authToken = bitriseBuildCacheWorkspaceID + ':' + System.getenv('BITRISE_BUILD_CACHE_AUTH_TOKEN')
         enabled = true
         push = isCI
