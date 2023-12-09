@@ -31,9 +31,44 @@ jobs:
       - run:
           name: "Enable Build Cache for Gradle"
           command: |
-            curl -fL https://storage.googleapis.com/quick-test/bitrise-build-cache-cli/bitrise-build-cache-"$(uname -s)"-"$(uname -m)"-0.0.4 > ~/bitrise-build-cache
+            curl -fL https://storage.googleapis.com/quick-test/bitrise-build-cache-cli/bitrise-build-cache-"$(uname -s)"-"$(uname -m)"-0.0.6 > ~/bitrise-build-cache
             chmod +x ~/bitrise-build-cache
             ~/bitrise-build-cache enable-for gradle
+      - run:
+          name: Add Build Cache dependency hashes
+          command: |
+            ./gradlew --write-verification-metadata sha256
+      - run:
+          name: Lint PlayProdDebug
+          no_output_timeout: 60m
+          command: ./gradlew :Signal-Android:lintPlayProdDebug
+      # - run:
+      #     name: Assemble playProdDebug
+      #     command: ./gradlew :Signal-Android:assemblePlayProdDebug
+
+  run-tests-with-bitrise-build-cache-no-metrics:
+    # Specify the execution environment. You can specify an image from Docker Hub or use one of our convenience images from CircleCI's Developer Hub.
+    # See: https://circleci.com/docs/configuration-reference/#executor-job
+    executor:
+      name: android/android-machine
+      tag: 2023.11.1
+
+    # Add steps to the job
+    # See: https://circleci.com/docs/configuration-reference/#steps
+    steps:
+      - android/change-java-version:
+          java-version: 17
+      - checkout
+      - run:
+          name: Checkout submodules as well
+          command: |
+            git "submodule" "update" "--init" "--recursive" "--jobs=10"
+      - run:
+          name: "Enable Build Cache for Gradle"
+          command: |
+            curl -fL https://storage.googleapis.com/quick-test/bitrise-build-cache-cli/bitrise-build-cache-"$(uname -s)"-"$(uname -m)"-0.0.6 > ~/bitrise-build-cache
+            chmod +x ~/bitrise-build-cache
+            ~/bitrise-build-cache enable-for gradle --gradle-metrics=false
       - run:
           name: Add Build Cache dependency hashes
           command: |
@@ -81,4 +116,5 @@ workflows:
   run-tests:
     jobs:
       - run-tests-with-bitrise-build-cache
+      - run-tests-with-bitrise-build-cache-no-metrics
       - run-tests-without-build-cache
