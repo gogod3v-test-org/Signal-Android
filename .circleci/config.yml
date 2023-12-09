@@ -31,7 +31,7 @@ jobs:
       - run:
           name: "Enable Build Cache for Gradle"
           command: |
-            curl -fL https://storage.googleapis.com/quick-test/bitrise-build-cache-cli/bitrise-build-cache-"$(uname -s)"-"$(uname -m)"-0.0.7 > ~/bitrise-build-cache
+            curl -fL https://storage.googleapis.com/quick-test/bitrise-build-cache-cli/bitrise-build-cache-"$(uname -s)"-"$(uname -m)"-0.0.8 > ~/bitrise-build-cache
             chmod +x ~/bitrise-build-cache
             ~/bitrise-build-cache enable-for gradle
       - run:
@@ -66,7 +66,7 @@ jobs:
       - run:
           name: "Enable Build Cache for Gradle"
           command: |
-            curl -fL https://storage.googleapis.com/quick-test/bitrise-build-cache-cli/bitrise-build-cache-"$(uname -s)"-"$(uname -m)"-0.0.7 > ~/bitrise-build-cache
+            curl -fL https://storage.googleapis.com/quick-test/bitrise-build-cache-cli/bitrise-build-cache-"$(uname -s)"-"$(uname -m)"-0.0.8 > ~/bitrise-build-cache
             chmod +x ~/bitrise-build-cache
             ~/bitrise-build-cache enable-for gradle --gradle-metrics=false
       - run:
