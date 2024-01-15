@@ -31,9 +31,14 @@ jobs:
       - run:
           name: "Enable Build Cache for Gradle"
           command: |
-            curl -fL https://storage.googleapis.com/quick-test/bitrise-build-cache-cli/bitrise-build-cache-"$(uname -s)"-"$(uname -m)"-0.0.8 > ~/bitrise-build-cache
-            chmod +x ~/bitrise-build-cache
-            ~/bitrise-build-cache enable-for gradle
+            #!/usr/bin/env bash
+            set -euxo pipefail
+            
+            # download Bitrise Build Cache CLI
+            curl -sSfL 'https://raw.githubusercontent.com/bitrise-io/bitrise-build-cache-cli/main/install/installer.sh' | sh -s -- -b /tmp/bin -d
+            
+            # run the CLI to enable Bitrise build cache for Gradle
+            /tmp/bin/bitrise-build-cache enable-for gradle
       - run:
           name: Add Build Cache dependency hashes
           command: |
@@ -66,9 +71,14 @@ jobs:
       - run:
           name: "Enable Build Cache for Gradle"
           command: |
-            curl -fL https://storage.googleapis.com/quick-test/bitrise-build-cache-cli/bitrise-build-cache-"$(uname -s)"-"$(uname -m)"-0.0.8 > ~/bitrise-build-cache
-            chmod +x ~/bitrise-build-cache
-            ~/bitrise-build-cache enable-for gradle --gradle-metrics=false
+            #!/usr/bin/env bash
+            set -euxo pipefail
+            
+            # download Bitrise Build Cache CLI
+            curl -sSfL 'https://raw.githubusercontent.com/bitrise-io/bitrise-build-cache-cli/main/install/installer.sh' | sh -s -- -b /tmp/bin -d
+            
+            # run the CLI to enable Bitrise build cache for Gradle
+            /tmp/bin/bitrise-build-cache enable-for gradle --gradle-metrics=false
       - run:
           name: Add Build Cache dependency hashes
           command: |
