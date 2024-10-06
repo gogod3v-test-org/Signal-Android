@@ -56,7 +56,7 @@ jobs:
     # See: https://circleci.com/docs/configuration-reference/#executor-job
     executor:
       name: android/android-machine
-      tag: 2023.11.1
+      tag: 2024.04.1
 
     # Add steps to the job
     # See: https://circleci.com/docs/configuration-reference/#steps
@@ -96,7 +96,7 @@ jobs:
     # See: https://circleci.com/docs/configuration-reference/#executor-job
     executor:
       name: android/android-machine
-      tag: 2023.11.1
+      tag: 2024.04.1
 
     # Add steps to the job
     # See: https://circleci.com/docs/configuration-reference/#steps
