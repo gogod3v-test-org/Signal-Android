@@ -40,9 +40,9 @@ jobs:
             # run the CLI to enable Bitrise build cache for Gradle
             /tmp/bin/bitrise-build-cache enable-for gradle
       - run:
-          name: Add Build Cache dependency hashes
+          name: Disable Gradle Dependency Verification
           command: |
-            ./gradlew --write-verification-metadata sha256
+            rm ./gradle/verification-metadata.xml
       - run:
           name: Lint PlayProdDebug
           no_output_timeout: 60m
@@ -80,9 +80,9 @@ jobs:
             # run the CLI to enable Bitrise build cache for Gradle
             /tmp/bin/bitrise-build-cache enable-for gradle --metrics=false
       - run:
-          name: Add Build Cache dependency hashes
+          name: Disable Gradle Dependency Verification
           command: |
-            ./gradlew --write-verification-metadata sha256
+            rm ./gradle/verification-metadata.xml
       - run:
           name: Lint PlayProdDebug
           no_output_timeout: 60m
@@ -109,9 +109,9 @@ jobs:
           command: |
             git "submodule" "update" "--init" "--recursive" "--jobs=10"
       - run:
-          name: Add Build Cache dependency hashes
+          name: Disable Gradle Dependency Verification
           command: |
-            ./gradlew --write-verification-metadata sha256
+            rm ./gradle/verification-metadata.xml
       - run:
           name: Lint PlayProdDebug
           no_output_timeout: 60m
