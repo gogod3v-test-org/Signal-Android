@@ -30,22 +30,37 @@ jobs:
             git "submodule" "update" "--init" "--recursive" "--jobs=10"
       # Restore Gradle wrapper cache
       - restore_cache:
+          name: Restore Gradle wrapper cache
           keys:
             - gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
             - gradle-wrapper-
       # Restore Gradle dependencies cache
       - restore_cache:
+          name: Restore Gradle dependencies cache
           keys:
             - gradle-deps-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
             - gradle-deps-
+      # Restore Bitrise Build Cache CLI
+      - restore_cache:
+          name: Restore Bitrise Build Cache CLI
+          keys:
+            - bitrise-build-cache-cli-v1-{{ arch }}
+            - bitrise-build-cache-cli-v1-
       - run:
           name: "Enable Build Cache for Gradle"
           command: |
             #!/usr/bin/env bash
             set -euxo pipefail
             
-            # download Bitrise Build Cache CLI
-            curl --retry 5 -sSfL 'https://raw.githubusercontent.com/bitrise-io/bitrise-build-cache-cli/main/install/installer.sh' | sh -s -- -b /tmp/bin -d
+            # Try to download Bitrise Build Cache CLI from GitHub first
+            if curl --retry 5 -sSfL 'https://raw.githubusercontent.com/bitrise-io/bitrise-build-cache-cli/main/install/installer.sh' | sh -s -- -b /tmp/bin -d; then
+              echo "Successfully downloaded Bitrise Build Cache CLI from GitHub"
+            elif [ -f /tmp/bin/bitrise-build-cache ]; then
+              echo "GitHub download failed, using cached Bitrise Build Cache CLI"
+            else
+              echo "Both GitHub download and cache failed"
+              exit 1
+            fi
             
             # run the CLI to enable Bitrise build cache for Gradle
             /tmp/bin/bitrise-build-cache enable-for gradle
@@ -59,14 +74,22 @@ jobs:
           command: ./gradlew :Signal-Android:lintPlayProdDebug
       # Save Gradle wrapper cache
       - save_cache:
+          name: Save Gradle wrapper cache
           paths:
             - ~/.gradle/wrapper
           key: gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
       # Save Gradle dependencies cache
       - save_cache:
+          name: Save Gradle dependencies cache
           paths:
             - ~/.gradle/caches
           key: gradle-deps-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
+      # Save Bitrise Build Cache CLI
+      - save_cache:
+          name: Save Bitrise Build Cache CLI
+          paths:
+            - /tmp/bin/bitrise-build-cache
+          key: bitrise-build-cache-cli-v1-{{ arch }}
       # - run:
       #     name: Assemble playProdDebug
       #     command: ./gradlew :Signal-Android:assemblePlayProdDebug
@@ -90,22 +113,37 @@ jobs:
             git "submodule" "update" "--init" "--recursive" "--jobs=10"
       # Restore Gradle wrapper cache
       - restore_cache:
+          name: Restore Gradle wrapper cache
           keys:
             - gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
             - gradle-wrapper-
       # Restore Gradle dependencies cache
       - restore_cache:
+          name: Restore Gradle dependencies cache
           keys:
             - gradle-deps-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
             - gradle-deps-
+      # Restore Bitrise Build Cache CLI
+      - restore_cache:
+          name: Restore Bitrise Build Cache CLI
+          keys:
+            - bitrise-build-cache-cli-v1-{{ arch }}
+            - bitrise-build-cache-cli-v1-
       - run:
           name: "Enable Build Cache for Gradle"
           command: |
             #!/usr/bin/env bash
             set -euxo pipefail
             
-            # download Bitrise Build Cache CLI
-            curl --retry 5 -sSfL 'https://raw.githubusercontent.com/bitrise-io/bitrise-build-cache-cli/main/install/installer.sh' | sh -s -- -b /tmp/bin -d
+            # Try to download Bitrise Build Cache CLI from GitHub first
+            if curl --retry 5 -sSfL 'https://raw.githubusercontent.com/bitrise-io/bitrise-build-cache-cli/main/install/installer.sh' | sh -s -- -b /tmp/bin -d; then
+              echo "Successfully downloaded Bitrise Build Cache CLI from GitHub"
+            elif [ -f /tmp/bin/bitrise-build-cache ]; then
+              echo "GitHub download failed, using cached Bitrise Build Cache CLI"
+            else
+              echo "Both GitHub download and cache failed"
+              exit 1
+            fi
             
             # run the CLI to enable Bitrise build cache for Gradle
             /tmp/bin/bitrise-build-cache enable-for gradle --metrics=false
@@ -119,14 +157,22 @@ jobs:
           command: ./gradlew :Signal-Android:lintPlayProdDebug
       # Save Gradle wrapper cache
       - save_cache:
+          name: Save Gradle wrapper cache
           paths:
             - ~/.gradle/wrapper
           key: gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
       # Save Gradle dependencies cache
       - save_cache:
+          name: Save Gradle dependencies cache
           paths:
             - ~/.gradle/caches
           key: gradle-deps-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
+      # Save Bitrise Build Cache CLI
+      - save_cache:
+          name: Save Bitrise Build Cache CLI
+          paths:
+            - /tmp/bin/bitrise-build-cache
+          key: bitrise-build-cache-cli-v1-{{ arch }}
       # - run:
       #     name: Assemble playProdDebug
       #     command: ./gradlew :Signal-Android:assemblePlayProdDebug
@@ -150,11 +196,13 @@ jobs:
             git "submodule" "update" "--init" "--recursive" "--jobs=10"
       # Restore Gradle wrapper cache
       - restore_cache:
+          name: Restore Gradle wrapper cache
           keys:
             - gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
             - gradle-wrapper-
       # Restore Gradle dependencies cache
       - restore_cache:
+          name: Restore Gradle dependencies cache
           keys:
             - gradle-deps-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
             - gradle-deps-
@@ -168,11 +216,13 @@ jobs:
           command: ./gradlew :Signal-Android:lintPlayProdDebug
       # Save Gradle wrapper cache
       - save_cache:
+          name: Save Gradle wrapper cache
           paths:
             - ~/.gradle/wrapper
           key: gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
       # Save Gradle dependencies cache
       - save_cache:
+          name: Save Gradle dependencies cache
           paths:
             - ~/.gradle/caches
           key: gradle-deps-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
